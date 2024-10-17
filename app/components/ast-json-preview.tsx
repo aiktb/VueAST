@@ -1,14 +1,11 @@
 import type { SFCParseResult } from "@vue/compiler-sfc";
 import { codeToHtml } from "shiki";
 
-import { cn } from "~/lib/utils";
-
 interface AstJsonPreviewProps {
   ast: SFCParseResult;
-  className?: string;
 }
 
-const AstJsonPreview = ({ ast, className }: AstJsonPreviewProps) => {
+const AstJsonPreview = ({ ast }: AstJsonPreviewProps) => {
   const [highlightedAstJson, setHighlightedAstJson] = useState<string>("");
 
   useEffect(() => {
@@ -25,7 +22,7 @@ const AstJsonPreview = ({ ast, className }: AstJsonPreviewProps) => {
   }, [ast]);
 
   return (
-    <div className={cn("", className)}>
+    <div>
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki has escaped html. */}
       <div dangerouslySetInnerHTML={{ __html: highlightedAstJson }} />
     </div>

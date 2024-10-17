@@ -10,7 +10,7 @@
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "react/canary", "react-dom/canary"],
+    "types": ["vite/client", "react/canary", "react-dom/canary", "vite-plugin-svgr/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -24,7 +24,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@/*": ["./*"]
     },
 
     // Vite takes care of building everything, not tsc.

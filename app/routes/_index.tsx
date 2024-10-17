@@ -1,13 +1,13 @@
 import type { MetaFunction } from "@netlify/remix-runtime";
-
 import { type SFCParseResult, parse } from "@vue/compiler-sfc";
 
 import AstJsonPreview from "~/components/ast-json-preview";
 import CodeMirrorEditor from "~/components/code-mirror-editor";
+import Header from "~/components/header";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Vueast" },
+    { title: "VueAST" },
     {
       name: "description",
       content: "View the AST structure of the Vue template syntax online immediately.",
@@ -35,18 +35,21 @@ const count = ref(0);
   }, [code]);
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="min-h-screen w-full overflow-scroll">
-      <ResizablePanel defaultSize={50}>
-        <div className="max-h-screen items-center justify-center overflow-scroll p-6">
-          <CodeMirrorEditor code={code} onChange={setCode} />
-        </div>
-      </ResizablePanel>
-      <ResizableHandle withHandle={true} />
-      <ResizablePanel defaultSize={50}>
-        <div className="max-h-screen items-center justify-center overflow-scroll p-6">
-          <AstJsonPreview ast={ast} />
-        </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+    <div className="h-screen flex-col">
+      <Header />
+      <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
+        <ResizablePanel defaultSize={50}>
+          <div className="max-h-full items-center justify-center overflow-scroll p-6">
+            <CodeMirrorEditor code={code} onChange={setCode} />
+          </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle={true} />
+        <ResizablePanel defaultSize={50}>
+          <div className="max-h-full items-center justify-center overflow-scroll p-6">
+            <AstJsonPreview ast={ast} />
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </div>
   );
 }

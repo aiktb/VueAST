@@ -7,6 +7,7 @@ import { netlifyPlugin } from "@netlify/remix-edge-adapter/plugin";
 import { vitePlugin as remix } from "@remix-run/dev";
 import { visualizer } from "rollup-plugin-visualizer";
 import autoImport from "unplugin-auto-import/vite";
+import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
@@ -30,6 +31,7 @@ export default defineConfig({
       imports: ["react"],
       dirs: ["./app/components/ui"],
     }),
+    svgr(),
     // `emitFile` is necessary since Remix builds more than one bundle!
     visualizer({ emitFile: true }),
   ],

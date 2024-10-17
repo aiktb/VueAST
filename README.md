@@ -2,7 +2,7 @@
     <a href="https://vueast.org" target="_blank">
       <img src="./app/assets/logo.svg" alt="homepage" width="100" height="100">
     </a>
-    <h1>Vueast</h1>
+    <h1>VueAST</h1>
 </div>
 
 ## Features
@@ -27,3 +27,7 @@ If you like this project, please consider supporting me by buying me a coffee.
 ## License
 
 [MIT](./LICENSE) | © 2024 [aiktb](https://aiktb.dev) made with ❤️.
+
+## Thanks
+
+- Inspired by [ts-ast-viewer](https://github.com/dsherret/ts-ast-viewer).
