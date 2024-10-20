@@ -6,9 +6,9 @@ const DropdownMenuDemo = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          {theme === "light" && <span className="i-lucide-sun" />}
-          {theme === "dark" && <span className="i-lucide-moon" />}
-          {theme === "system" && <span className="i-lucide-laptop-minimal" />}
+          {theme === "light" && <span className="i-lucide-sun size-4" />}
+          {theme === "dark" && <span className="i-lucide-moon size-4" />}
+          {theme === "system" && <span className="i-lucide-laptop-minimal size-4" />}
           <span className="sr-only">Switch Theme</span>
         </Button>
       </DropdownMenuTrigger>
