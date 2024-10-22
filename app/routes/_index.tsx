@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@netlify/remix-runtime";
-import { type SFCParseResult, parse } from "@vue/compiler-sfc";
+import { parse } from "@vue/compiler-sfc";
 
 import { ClientOnly } from "remix-utils/client-only";
 import AstJsonPreview from "~/components/ast-json-preview";
@@ -16,24 +16,27 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
-  const exampleCode = `<script setup lang="ts">
+const exampleCode = `<script setup lang="ts">
 import { ref } from 'vue';
 
 const count = ref(0);
 </script>
 
 <template>
-  <span>{{ count }}</span>
+  <span class="count">{{ count }}</span>
   <button @click="count++">Add</button>
 </template>
-`;
-  const [code, setCode] = useState<string>(exampleCode);
-  const [ast, setAst] = useState<SFCParseResult>(parse(code));
 
-  useEffect(() => {
-    setAst(parse(code));
-  }, [code]);
+<style scoped>
+.count {
+  color: green;
+}
+</style>
+`;
+
+export default function Index() {
+  const [code, setCode] = useState(exampleCode);
+  const ast = parse(code);
 
   return (
     <div className="relative h-screen">
@@ -41,13 +44,13 @@ const count = ref(0);
       <main className="h-[calc(100%-48px)] overflow-scroll">
         <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
           <ResizablePanel defaultSize={50}>
-            <div className="h-full items-center justify-center overflow-scroll p-6">
+            <div className="h-full items-center justify-center p-6">
               <ClientOnly>{() => <CodeMirrorEditor code={code} onChange={setCode} />}</ClientOnly>
             </div>
           </ResizablePanel>
           <ResizableHandle withHandle={true} />
           <ResizablePanel defaultSize={50}>
-            <div className="max-h-full items-center justify-center overflow-scroll p-6">
+            <div className="h-full items-center justify-center p-6">
               <AstJsonPreview ast={ast} />
             </div>
           </ResizablePanel>

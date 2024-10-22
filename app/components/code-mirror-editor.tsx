@@ -3,10 +3,9 @@ import { EditorView, keymap } from "@codemirror/view";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
-import parserBabel from "prettier/parser-babel";
-import parserHtml from "prettier/parser-html";
-import parserTypeScript from "prettier/parser-typescript";
-import prettier from "prettier/standalone";
+import * as parserHtml from "prettier/parser-html";
+import * as parserPostCSS from "prettier/parser-postcss";
+import * as prettier from "prettier/standalone";
 
 interface CodeMirrorEditorProps {
   code: string;
@@ -24,12 +23,14 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
     },
     ".cm-scroller": {
       fontFamily: "'Fira Code', monospace",
+      fontSize: "16px",
     },
-    ".cm-gutters": {
-      backgroundColor: "transparent",
+    "&dark .cm-gutters": {
+      backgroundColor: "#0D1117",
       borderRight: "none",
     },
   });
+
   const customKeymap = keymap.of([
     {
       key: "Ctrl-s",
@@ -43,22 +44,22 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
       key: "Shift-Alt-f",
       mac: "Shift-Cmd-f",
       run: (editor) => {
-        new Promise<string>((resolve) => {
-          resolve(
-            prettier.format(editor.state.doc.toString(), {
-              parser: "vue",
-              plugins: [parserHtml, parserBabel, parserTypeScript],
-            }),
-          );
-        }).then((formatted) => {
-          editor.dispatch({
-            changes: {
-              from: 0,
-              to: editor.state.doc.length,
-              insert: formatted,
-            },
+        prettier
+          .formatWithCursor(editor.state.doc.toString(), {
+            parser: "vue",
+            plugins: [parserHtml, parserPostCSS],
+            cursorOffset: editor.state.selection.main.head,
+          })
+          .then(({ formatted, cursorOffset }) => {
+            editor.dispatch({
+              changes: {
+                from: 0,
+                to: editor.state.doc.length,
+                insert: formatted,
+              },
+              selection: { anchor: cursorOffset, head: cursorOffset },
+            });
           });
-        });
         return true;
       },
     },
@@ -71,6 +72,8 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
         value={code}
         className="h-full"
         height="100%"
+        autoFocus
+        translate="no"
         theme={theme === "light" ? githubLight : githubDark}
         extensions={[vue(), styleTheme, customKeymap]}
       />
@@ -82,7 +85,7 @@ export default CodeMirrorEditorProps;
 
 const Kbd = ({ children }: { children: string }) => {
   return (
-    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded bg-neutral-50 px-1 font-medium font-mono text-[10px] text-neutral-900 ring-1 ring-neutral-300 ring-inset dark:bg-neutral-800 dark:text-white dark:ring-neutral-700">
+    <kbd className="rounded font-medium font-mono text-[12px] text-neutral-900 uppercase dark:text-white">
       {children}
     </kbd>
   );
@@ -98,14 +101,13 @@ const ShortcutTips = ({ className }: { className: string }) => {
             <span className="i-radix-icons-keyboard size-4" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="text-sm">
-          <p className="flex items-center gap-0.5">
-            Save: <Kbd>{isMacOS ? "⌘" : "Ctrl"}</Kbd>
-            <Kbd>S</Kbd>
+        <TooltipContent>
+          <p className="text-sm">
+            Save: <Kbd>{isMacOS ? "⌘" : "Ctrl"}</Kbd> + <Kbd>S</Kbd>
           </p>
-          <p className="mt-1 flex items-center gap-0.5">
-            Format: <Kbd>{isMacOS ? "⇧" : "Shift"}</Kbd> <Kbd>{isMacOS ? "⌥	" : "Alt"}</Kbd>
-            <Kbd>F</Kbd>
+          <p className="mt-1 text-sm">
+            Format: <Kbd>{isMacOS ? "⇧" : "Shift"}</Kbd> + <Kbd>{isMacOS ? "⌥	" : "Alt"}</Kbd>
+            {" +"} <Kbd> F </Kbd>
           </p>
         </TooltipContent>
       </Tooltip>
