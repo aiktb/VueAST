@@ -3,8 +3,11 @@ import { EditorView, keymap } from "@codemirror/view";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
+import * as parserBabel from "prettier/parser-babel";
 import * as parserHtml from "prettier/parser-html";
 import * as parserPostCSS from "prettier/parser-postcss";
+import * as parserTypeScript from "prettier/parser-typescript";
+import * as prettierPluginESTree from "prettier/plugins/estree";
 import * as prettier from "prettier/standalone";
 
 interface CodeMirrorEditorProps {
@@ -47,7 +50,13 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
         prettier
           .formatWithCursor(editor.state.doc.toString(), {
             parser: "vue",
-            plugins: [parserHtml, parserPostCSS],
+            plugins: [
+              prettierPluginESTree,
+              parserTypeScript,
+              parserBabel,
+              parserHtml,
+              parserPostCSS,
+            ],
             cursorOffset: editor.state.selection.main.head,
           })
           .then(({ formatted, cursorOffset }) => {
