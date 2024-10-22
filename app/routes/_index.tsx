@@ -36,21 +36,23 @@ const count = ref(0);
   }, [code]);
 
   return (
-    <div className="h-screen flex-col">
-      <Header />
-      <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
-        <ResizablePanel defaultSize={50}>
-          <div className="h-full items-center justify-center overflow-scroll p-6">
-            <ClientOnly>{() => <CodeMirrorEditor code={code} onChange={setCode} />}</ClientOnly>
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle={true} />
-        <ResizablePanel defaultSize={50}>
-          <div className="max-h-full items-center justify-center overflow-scroll p-6">
-            <AstJsonPreview ast={ast} />
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+    <div className="relative h-screen">
+      <Header className="sticky top-0 z-20 h-12 w-full" />
+      <main className="h-[calc(100%-48px)] overflow-scroll">
+        <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
+          <ResizablePanel defaultSize={50}>
+            <div className="h-full items-center justify-center overflow-scroll p-6">
+              <ClientOnly>{() => <CodeMirrorEditor code={code} onChange={setCode} />}</ClientOnly>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle={true} />
+          <ResizablePanel defaultSize={50}>
+            <div className="max-h-full items-center justify-center overflow-scroll p-6">
+              <AstJsonPreview ast={ast} />
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </main>
     </div>
   );
 }

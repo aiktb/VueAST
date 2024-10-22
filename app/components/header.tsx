@@ -3,16 +3,22 @@ import { version } from "@vue/compiler-sfc";
 
 import Logo from "~/assets/logo.svg?react";
 
-import packageJSON from "@/package.json";
+import { repository } from "@/package.json";
 
 import GlobalOptions from "~/components/global-options";
 import ThemesSwitcher from "~/components/themes-switcher";
+import { cn } from "~/lib/utils";
 
-const Header = () => {
+const Header = ({ className }: { className?: string }) => {
   const regex = /git\+(https:\/\/github.com\/.+)\.git/;
-  const githubUrl = packageJSON.repository.url.replace(regex, "$1");
+  const githubUrl = repository.url.replace(regex, "$1");
   return (
-    <header className="flex items-center justify-between border-border border-b px-6 py-1.5">
+    <header
+      className={cn(
+        "flex items-center justify-between border-border border-b px-6 py-1.5",
+        className,
+      )}
+    >
       <Link to="/" className="flex items-center font-bold text-xl">
         <Logo className="size-10" />
         <span className="select-all">
