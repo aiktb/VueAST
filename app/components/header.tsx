@@ -37,7 +37,7 @@ const Header = () => {
           target="_blank"
           className="flex size-9 items-center justify-center rounded-md hover:bg-accent"
         >
-          <span className="i-lucide-github size-4" />
+          <span className="i-radix-icons-github-logo size-4" />
           <span className="sr-only">GitHub</span>
         </Link>
         <ThemesSwitcher />

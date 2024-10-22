@@ -1,63 +1,75 @@
 import { vue } from "@codemirror/lang-vue";
-import { EditorView, basicSetup } from "codemirror";
-
-import { cn } from "~/lib/utils";
+import { EditorView, keymap } from "@codemirror/view";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import CodeMirror from "@uiw/react-codemirror";
+import { useTheme } from "next-themes";
+import parserBabel from "prettier/parser-babel";
+import parserHtml from "prettier/parser-html";
+import parserTypeScript from "prettier/parser-typescript";
+import prettier from "prettier/standalone";
 
 interface CodeMirrorEditorProps {
   code: string;
   onChange: (value: string) => void;
-  className?: string;
 }
 
-const CodeMirrorEditorProps = ({ code, className, onChange }: CodeMirrorEditorProps) => {
-  const editorRef = useRef<HTMLDivElement>(null);
-  const viewRef = useRef<EditorView | null>(null);
-
-  useEffect(() => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    viewRef.current = new EditorView({
-      extensions: [
-        basicSetup,
-        vue(),
-        EditorView.theme({
-          ".cm-scroller": {
-            fontFamily: "Fira Code, monospace",
-          },
-        }),
-      ],
-      parent: editorRef.current,
-      doc: code,
-    });
-
-    return () => {
-      if (viewRef.current) {
-        viewRef.current.destroy();
-      }
-    };
-  }, []);
-
-  const emitChangeEvent = () => {
-    if (!viewRef.current) {
-      return;
-    }
-    onChange(viewRef.current.state.doc.toString());
-  };
+const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
+  const { theme } = useTheme();
+  const styleTheme = EditorView.baseTheme({
+    "&": {
+      fontSize: "14px",
+    },
+    "&.cm-editor.cm-focused": {
+      outline: "none",
+    },
+    ".cm-scroller": {
+      fontFamily: "'Fira Code', monospace",
+    },
+    ".cm-gutters": {
+      backgroundColor: "transparent",
+    },
+  });
+  const customKeymap = keymap.of([
+    {
+      key: "Ctrl-s",
+      mac: "Cmd-s",
+      run: (editor) => {
+        onChange(editor.state.doc.toString());
+        return true;
+      },
+    },
+    {
+      key: "Shift-Alt-f",
+      mac: "Shift-Cmd-f",
+      run: (editor) => {
+        new Promise<string>((resolve) => {
+          resolve(
+            prettier.format(editor.state.doc.toString(), {
+              parser: "vue",
+              plugins: [parserHtml, parserBabel, parserTypeScript],
+            }),
+          );
+        }).then((formatted) => {
+          editor.dispatch({
+            changes: {
+              from: 0,
+              to: editor.state.doc.length,
+              insert: formatted,
+            },
+          });
+        });
+        return true;
+      },
+    },
+  ]);
 
   return (
-    <div
-      ref={editorRef}
-      className={cn("relative size-full overflow-hidden font-mono", className)}
-      translate="no"
-      onKeyDown={(e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
-          e.preventDefault();
-          emitChangeEvent();
-        }
-      }}
-      onBlur={emitChangeEvent}
+    <CodeMirror
+      value={code}
+      className="h-full"
+      height="100%"
+      theme={theme === "light" ? githubLight : githubDark}
+      extensions={[vue(), styleTheme, customKeymap]}
     />
   );
 };

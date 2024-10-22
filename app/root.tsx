@@ -11,7 +11,7 @@ import "@fontsource/fira-code/700.css";
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     // If you do not add suppressHydrationWarning to your <html> you will get warnings because next-themes updates that element.
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="font-sans">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

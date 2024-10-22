@@ -1,28 +1,15 @@
 import { useTheme } from "next-themes";
-import { useMount } from "~/hooks";
-
-const ThemeIcon = ({ theme }: { theme: string | undefined }) => {
-  switch (theme) {
-    case "light":
-      return <span className="i-lucide-sun size-4" />;
-    case "dark":
-      return <span className="i-lucide-moon size-4" />;
-    default:
-      return <span className="i-lucide-laptop-minimal size-4" />;
-  }
-};
 
 const DropdownMenuDemo = () => {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useMount(() => setMounted(true));
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          {mounted ? <ThemeIcon theme={theme} /> : <span className="size-4" />}
+          {/* Don't render icons dynamically based on `theme`, it will cause hydration mismatch and FOUC */}
+          <span className="i-lucide-sun dark:-rotate-90 size-4 rotate-0 scale-100 transition-all dark:scale-0" />
+          <span className="i-radix-icons-moon absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Switch Theme</span>
         </Button>
       </DropdownMenuTrigger>
@@ -33,7 +20,7 @@ const DropdownMenuDemo = () => {
             <span>Light</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("dark")}>
-            <span className="i-lucide-moon" />
+            <span className="i-radix-icons-moon" />
             <span>Dark</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("system")}>

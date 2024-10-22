@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@netlify/remix-runtime";
 import { type SFCParseResult, parse } from "@vue/compiler-sfc";
 
+import { ClientOnly } from "remix-utils/client-only";
 import AstJsonPreview from "~/components/ast-json-preview";
 import CodeMirrorEditor from "~/components/code-mirror-editor";
 import Header from "~/components/header";
@@ -39,8 +40,8 @@ const count = ref(0);
       <Header />
       <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
         <ResizablePanel defaultSize={50}>
-          <div className="max-h-full items-center justify-center overflow-scroll p-6">
-            <CodeMirrorEditor code={code} onChange={setCode} />
+          <div className="h-full items-center justify-center overflow-scroll p-6">
+            <ClientOnly>{() => <CodeMirrorEditor code={code} onChange={setCode} />}</ClientOnly>
           </div>
         </ResizablePanel>
         <ResizableHandle withHandle={true} />

@@ -3,13 +3,13 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 import defaultTheme from "tailwindcss/defaultTheme";
 export default {
-  darkMode: ["selector", "class"],
+  darkMode: ["selector"],
   safelist: ["dark"],
   content: ["./app/**/{**,.client,.server}/**/*.{tsx,ts}"],
   plugins: [
     animate,
     iconsPlugin({
-      collections: getIconCollections(["lucide"]),
+      collections: getIconCollections(["lucide", "radix-icons"]),
     }),
   ],
   theme: {
