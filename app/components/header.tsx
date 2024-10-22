@@ -19,11 +19,9 @@ const Header = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      <Link to="/" className="flex items-center font-bold text-xl">
+      <Link to="/" className="flex select-none items-center font-bold text-xl">
         <Logo className="size-10" />
-        <span className="select-all">
-          Vue<span className="text-green-500">AST</span>
-        </span>
+        Vue<span className="text-green-500">AST</span>
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -32,7 +30,7 @@ const Header = ({ className }: { className?: string }) => {
               </span>
             </TooltipTrigger>
             <TooltipContent>
-              <p className="font-normal">Support Vue latest version</p>
+              <p className="font-normal text-base">Support Vue latest version</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
