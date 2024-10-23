@@ -39,9 +39,9 @@ export default function Index() {
   const ast = parse(code);
 
   return (
-    <div className="relative h-screen">
-      <Header className="sticky top-0 z-20 h-12 w-full" />
-      <main className="h-[calc(100%-48px)] overflow-scroll">
+    <div className="relative grid h-dvh grid-rows-[3rem,_1fr]">
+      <Header className="sticky top-0 z-20 w-full" />
+      <main className="overflow-scroll">
         <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
           <ResizablePanel defaultSize={50}>
             <div className="h-full items-center justify-center p-6">
