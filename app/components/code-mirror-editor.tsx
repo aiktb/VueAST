@@ -16,7 +16,7 @@ interface CodeMirrorEditorProps {
 }
 
 const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const styleTheme = EditorView.baseTheme({
     "&": {
       fontSize: "14px",
@@ -83,7 +83,7 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
         height="100%"
         autoFocus
         translate="no"
-        theme={theme === "light" ? githubLight : githubDark}
+        theme={resolvedTheme === "light" ? githubLight : githubDark}
         extensions={[vue(), styleTheme, customKeymap]}
       />
     </div>
