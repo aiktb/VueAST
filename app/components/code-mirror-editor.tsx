@@ -28,9 +28,11 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
       fontFamily: "'Fira Code', monospace",
       fontSize: "16px",
     },
+    ".cm-gutters": {
+      borderRight: "none",
+    },
     "&dark .cm-gutters": {
       backgroundColor: "#0D1117",
-      borderRight: "none",
     },
   });
 
