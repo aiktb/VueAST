@@ -9,6 +9,7 @@ import * as parserPostCSS from "prettier/parser-postcss";
 import * as parserTypeScript from "prettier/parser-typescript";
 import * as prettierPluginESTree from "prettier/plugins/estree";
 import * as prettier from "prettier/standalone";
+import { cn } from "~/lib/utils";
 
 interface CodeMirrorEditorProps {
   code: string;
@@ -42,6 +43,7 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
       mac: "Cmd-s",
       run: (editor) => {
         onChange(editor.state.doc.toString());
+        setUnsavedChanges(false);
         return true;
       },
     },
@@ -76,9 +78,10 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
     },
   ]);
 
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
   return (
     <div className="relative h-full">
-      <ShortcutTips className="absolute top-0 right-0 z-10" />
+      <ShortcutTips className="absolute top-0 right-0 z-10" unsavedChanges={unsavedChanges} />
       <CodeMirror
         value={code}
         className="h-full"
@@ -87,6 +90,9 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
         translate="no"
         theme={resolvedTheme === "light" ? githubLight : githubDark}
         extensions={[vue(), styleTheme, customKeymap]}
+        onChange={() => {
+          setUnsavedChanges(true);
+        }}
       />
     </div>
   );
@@ -102,21 +108,33 @@ const Kbd = ({ children }: { children: string }) => {
   );
 };
 
-const ShortcutTips = ({ className }: { className: string }) => {
+const ShortcutTips = ({
+  className,
+  unsavedChanges,
+}: { className: string; unsavedChanges: boolean }) => {
   const isMacOS = navigator?.userAgent?.match(/Macintosh;/);
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size="icon" variant="outline" className={className}>
+          <Button size="icon" variant="outline" className={cn("", className)}>
             <span className="i-radix-icons-keyboard size-4" />
+            {unsavedChanges && (
+              <span className="-translate-y-1/2 absolute top-0 right-0 flex size-2 translate-x-1/2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+              </span>
+            )}
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <p className="text-sm">
+        <TooltipContent className="text-base">
+          {unsavedChanges && (
+            <p className="underline decoration-green-500">There are unsaved changes.</p>
+          )}
+          <p>
             Save: <Kbd>{isMacOS ? "⌘" : "Ctrl"}</Kbd> + <Kbd>S</Kbd>
           </p>
-          <p className="mt-1 text-sm">
+          <p>
             Format: <Kbd>{isMacOS ? "⇧" : "Shift"}</Kbd> + <Kbd>{isMacOS ? "⌥	" : "Alt"}</Kbd>
             {" +"} <Kbd> F </Kbd>
           </p>
