@@ -1,12 +1,12 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import { ThemeProvider } from "next-themes";
-
-import "~/assets/tailwind.css";
-
 import "@fontsource/afacad-flux/400.css";
 import "@fontsource/afacad-flux/700.css";
 import "@fontsource/fira-code/400.css";
 import "@fontsource/fira-code/700.css";
+
+import "~/assets/tailwind.css";
+
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import { ThemeProvider } from "next-themes";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
