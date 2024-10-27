@@ -1,7 +1,7 @@
 import { vue } from "@codemirror/lang-vue";
 import { EditorView, keymap } from "@codemirror/view";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { type ReactCodeMirrorRef } from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
 import * as parserBabel from "prettier/parser-babel";
 import * as parserHtml from "prettier/parser-html";
@@ -79,6 +79,7 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
   ]);
 
   const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const editor = useRef<ReactCodeMirrorRef>(null);
   return (
     <div className="relative h-full">
       <ShortcutTips className="absolute top-0 right-0 z-10" unsavedChanges={unsavedChanges} />
@@ -86,10 +87,17 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
         value={code}
         className="h-full"
         height="100%"
+        ref={editor}
         autoFocus
         translate="no"
         theme={resolvedTheme === "light" ? githubLight : githubDark}
         extensions={[vue(), styleTheme, customKeymap]}
+        onBlur={() => {
+          if (editor.current?.state) {
+            onChange(editor.current.state.doc.toString());
+            setUnsavedChanges(false);
+          }
+        }}
         onChange={() => {
           setUnsavedChanges(true);
         }}
