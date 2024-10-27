@@ -51,7 +51,7 @@ export default function Index() {
       <Header className="sticky top-0 z-20 w-full" />
       <main className="overflow-scroll">
         <ResizablePanelGroup direction="horizontal" className="w-full overflow-scroll">
-          <ResizablePanel defaultSize={50} id="editor-view" order={1}>
+          <ResizablePanel defaultSize={view === "JSON" ? 50 : 34} id="editor-view" order={1}>
             <div className="h-full items-center justify-center px-3 py-6 lg:px-6">
               <ClientOnly>{() => <CodeMirrorEditor code={code} onChange={onChange} />}</ClientOnly>
             </div>
@@ -66,13 +66,13 @@ export default function Index() {
           )}
           {view === "tree" && (
             <>
-              <ResizablePanel defaultSize={50} id="tree-view" order={2}>
+              <ResizablePanel defaultSize={33} id="tree-view" order={2}>
                 <div className="h-full items-center justify-center px-3 py-6 lg:px-6">
                   <CollapsibleTreeView ast={ast} />
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle={true} />
-              <ResizablePanel defaultSize={50} id="node-view" order={3}>
+              <ResizablePanel defaultSize={33} id="node-view" order={3}>
                 <div className="h-full items-center justify-center px-3 py-6 lg:px-6">
                   <SelectedNodeView />
                 </div>

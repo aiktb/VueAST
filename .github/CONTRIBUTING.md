@@ -22,7 +22,7 @@ Hi! We're Really excited that you are interested in contributing to Vueast. Befo
 - Commit messages must be matched by the following regex, see [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for more information.
 
 ```txt
-/^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?: .{1,70}/
+/^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?: .{1,100}/
 ```
 
 ## Development Setup
