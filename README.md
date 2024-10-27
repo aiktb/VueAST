@@ -16,6 +16,16 @@ Please make sure to read the [Contributing Guide](./.github/CONTRIBUTING.md) bef
 
 This includes instructions on how to setup development environment, test website, and build the final product.
 
+## Deployment
+
+This project can be deployed directly on [Netlify](https://www.netlify.com/), which is also the deployment scheme used by this project.
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aiktb/VueAST)
+
+Due to the bug of `@vercel/nft`, it cannot be deployed to Vercel. Due to the same issue, this project cannot be built on Nuxt.
+
+This project exceeds the free maximum 1MB limit for GZIP bundles uploaded to Cloudflare Worker, you need a paid plan.
+
 ## Sponsor
 
 If you like this project, please consider supporting me by buying me a coffee.
@@ -30,4 +40,4 @@ If you like this project, please consider supporting me by buying me a coffee.
 
 ## Thanks
 
-- Inspired by [ts-ast-viewer](https://github.com/dsherret/ts-ast-viewer).
+- Inspired by [ts-ast-viewer](https://github.com/dsherret/ts-ast-viewer) and [astexplorer](https://github.com/fkling/astexplorer).
