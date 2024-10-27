@@ -9,6 +9,7 @@ import * as parserPostCSS from "prettier/parser-postcss";
 import * as parserTypeScript from "prettier/parser-typescript";
 import * as prettierPluginESTree from "prettier/plugins/estree";
 import * as prettier from "prettier/standalone";
+import { useSelectedNodeStore } from "~/lib/store";
 import { cn } from "~/lib/utils";
 
 interface CodeMirrorEditorProps {
@@ -77,6 +78,18 @@ const CodeMirrorEditorProps = ({ code, onChange }: CodeMirrorEditorProps) => {
       },
     },
   ]);
+
+  const { node } = useSelectedNodeStore();
+  useEffect(() => {
+    if (node) {
+      editor.current?.view?.dispatch({
+        selection: {
+          anchor: node.loc.start.offset,
+          head: node.loc.end.offset,
+        },
+      });
+    }
+  }, [node]);
 
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const editor = useRef<ReactCodeMirrorRef>(null);
