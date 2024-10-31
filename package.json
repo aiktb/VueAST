@@ -12,7 +12,7 @@
     "name": "aiktb",
     "email": "ai.ourship@gmail.com"
   },
-  "homepage": "https://vueast.org",
+  "homepage": "https://vueast.netlify.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aiktb/VueAST.git"
@@ -55,7 +55,6 @@
     "react": "19.0.0-rc-6cf85185-20241014",
     "react-dom": "19.0.0-rc-6cf85185-20241014",
     "react-resizable-panels": "^2.1.4",
-    "remix-utils": "^7.7.0",
     "shiki": "^1.22.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",

@@ -28,7 +28,12 @@ export default defineConfig({
     tsconfigPaths(),
     autoImport({
       include: [/\.tsx?$/],
-      imports: ["react"],
+      imports: [
+        "react",
+        {
+          react: ["use"],
+        },
+      ],
       dirs: ["./app/components/ui"],
     }),
     svgr(),

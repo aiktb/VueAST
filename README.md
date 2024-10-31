@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://vueast.org" target="_blank">
+    <a href="https://vueast.netlify.app" target="_blank">
       <img src="./app/assets/logo.svg" alt="homepage" width="100" height="100">
     </a>
     <h1>VueAST</h1>

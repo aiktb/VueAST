@@ -11,7 +11,9 @@ type GlobalOptionsAction = {
   updateView: (view: GlobalOptionsState["view"]) => void;
 };
 
-export const useGlobalOptionsStore = create<GlobalOptionsState & GlobalOptionsAction>()(
+type GlobalOptionsStore = GlobalOptionsState & GlobalOptionsAction;
+
+export const useGlobalOptionsStore = create<GlobalOptionsStore>()(
   persist(
     (set) => ({
       view: "tree",
@@ -25,13 +27,19 @@ export const useGlobalOptionsStore = create<GlobalOptionsState & GlobalOptionsAc
 
 type SelectedNodeState = {
   node: Node | SFCBlock | null;
+  valid: boolean;
 };
 
 type SelectedNodeAction = {
   updateSelectedNode: (node: SelectedNodeState["node"]) => void;
+  updateValid: (valid: SelectedNodeState["valid"]) => void;
 };
 
-export const useSelectedNodeStore = create<SelectedNodeState & SelectedNodeAction>((set) => ({
+type SelectedNodeStore = SelectedNodeState & SelectedNodeAction;
+
+export const useSelectedNodeStore = create<SelectedNodeStore>((set) => ({
   node: null,
-  updateSelectedNode: (node) => set({ node }),
+  valid: true,
+  updateSelectedNode: (node) => set(() => ({ node })),
+  updateValid: (valid) => set(() => ({ valid })),
 }));
