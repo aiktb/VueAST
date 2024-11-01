@@ -10,10 +10,6 @@ function subscribe() {
   return () => {};
 }
 
-export function useMount(fn: () => void) {
-  useEffect(fn, []);
-}
-
 /**
  * Return a boolean indicating if the JS has been hydrated already.
  * When doing Server-Side Rendering, the result will always be false.

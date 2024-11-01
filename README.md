@@ -8,7 +8,7 @@
 ## Features
 
 - [x] Highlight the results of Vue SFC compiler parse.
-- [ ] Display Vue AST nodes in a tree view.
+- [x] Display Vue AST nodes in a tree view.
 
 ## Contribution
 

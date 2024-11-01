@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [":semanticCommitTypeAll(chore)", "group:allNonMajor"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["@vue/compiler-core", "@vue/compiler-sfc"],
+      "enabled": true
+    },
+    {
+      "matchPackagePatterns": ["*"],
+      "enabled": false
+    }
+  ]
+}

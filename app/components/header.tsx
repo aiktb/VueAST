@@ -4,8 +4,6 @@ import { version } from "@vue/compiler-sfc";
 import Logo from "~/assets/logo.svg?react";
 
 import { repository } from "@/package.json";
-
-import GlobalOptions from "~/components/global-options";
 import ThemesSwitcher from "~/components/themes-switcher";
 import { cn } from "~/lib/utils";
 
@@ -45,7 +43,6 @@ const Header = ({ className }: { className?: string }) => {
           <span className="sr-only">GitHub</span>
         </Link>
         <ThemesSwitcher />
-        <GlobalOptions />
       </div>
     </header>
   );
